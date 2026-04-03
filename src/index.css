@@ -207,6 +207,10 @@ body {
   .summary-cards-grid {
     grid-template-columns: repeat(2, 1fr) !important;
   }
+  
+  .insight-cards-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
 }
 
 @media (max-width: 768px) {

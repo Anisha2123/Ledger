@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Cell, ResponsiveContainer } from 'recharts'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { useApp } from '../../context/AppContext'
 import { CATEGORIES, getCategoryBreakdown, getMonthlyData, getSummary } from '../../data/transactions'
 import { formatINR } from '../../utils/format'
@@ -27,8 +27,13 @@ function CustomTooltip({ active, payload, label }) {
   if (!active || !payload?.length) return null
   return (
     <div style={{
-      background: 'var(--color-ink)', color: 'white', borderRadius: 10,
-      padding: '8px 13px', fontSize: 13, boxShadow: 'var(--shadow-float)',
+      background: '#0d0f14',
+      color: '#ffffff',
+      borderRadius: 10,
+      padding: '8px 13px',
+      fontSize: 13,
+      boxShadow: '0 8px 32px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3)',
+      border: '1px solid rgba(255,255,255,0.1)',
     }}>
       <div style={{ fontWeight: 600, marginBottom: 4 }}>{label}</div>
       {payload.map(p => (
@@ -67,7 +72,7 @@ export default function InsightsPage() {
       </div>
 
       {/* Key insight cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 14 }}>
+      <div className="insight-cards-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 14 }}>
         {topCat && (
           <InsightCard
             icon={CATEGORIES[topCat.category]?.icon || '🏷'}
