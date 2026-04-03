@@ -18,22 +18,22 @@ function tx(id, date, desc, amount, category, type, note = '') {
 }
 
 export const TRANSACTIONS = [
-  // January 2025
-  tx('t001', '2025-01-02', 'Monthly Salary', 95000, 'salary', 'income'),
-  tx('t002', '2025-01-03', 'Apartment Rent', -18000, 'rent', 'expense'),
-  tx('t003', '2025-01-05', 'Grocery Store', -2340, 'food', 'expense'),
-  tx('t004', '2025-01-07', 'Uber Ride', -280, 'transport', 'expense'),
-  tx('t005', '2025-01-09', 'Netflix Subscription', -649, 'entertainment', 'expense'),
-  tx('t006', '2025-01-10', 'Freelance Project A', 12000, 'freelance', 'income'),
-  tx('t007', '2025-01-12', 'Electricity Bill', -1200, 'utilities', 'expense'),
-  tx('t008', '2025-01-14', 'Restaurant Dinner', -890, 'food', 'expense'),
-  tx('t009', '2025-01-16', 'Amazon Shopping', -3200, 'shopping', 'expense'),
-  tx('t010', '2025-01-18', 'Gym Membership', -1500, 'health', 'expense'),
-  tx('t011', '2025-01-20', 'Zomato Order', -450, 'food', 'expense'),
-  tx('t012', '2025-01-22', 'Petrol', -2100, 'transport', 'expense'),
-  tx('t013', '2025-01-25', 'Mobile Recharge', -399, 'utilities', 'expense'),
-  tx('t014', '2025-01-28', 'Investment - Mutual Fund', -10000, 'investment', 'expense'),
-  tx('t015', '2025-01-30', 'Freelance Project B', 8500, 'freelance', 'income'),
+  // January 2026
+  tx('t001', '2026-01-02', 'Monthly Salary', 95000, 'salary', 'income'),
+  tx('t002', '2026-01-03', 'Apartment Rent', -18000, 'rent', 'expense'),
+  tx('t003', '2026-01-05', 'Grocery Store', -2340, 'food', 'expense'),
+  tx('t004', '2026-01-07', 'Uber Ride', -280, 'transport', 'expense'),
+  tx('t005', '2026-01-09', 'Netflix Subscription', -649, 'entertainment', 'expense'),
+  tx('t006', '2026-01-10', 'Freelance Project A', 12000, 'freelance', 'income'),
+  tx('t007', '2026-01-12', 'Electricity Bill', -1200, 'utilities', 'expense'),
+  tx('t008', '2026-01-14', 'Restaurant Dinner', -890, 'food', 'expense'),
+  tx('t009', '2026-01-16', 'Amazon Shopping', -3200, 'shopping', 'expense'),
+  tx('t010', '2026-01-18', 'Gym Membership', -1500, 'health', 'expense'),
+  tx('t011', '2026-01-20', 'Zomato Order', -450, 'food', 'expense'),
+  tx('t012', '2026-01-22', 'Petrol', -2100, 'transport', 'expense'),
+  tx('t013', '2026-01-25', 'Mobile Recharge', -399, 'utilities', 'expense'),
+  tx('t014', '2026-01-28', 'Investment - Mutual Fund', -10000, 'investment', 'expense'),
+  tx('t015', '2026-01-30', 'Freelance Project B', 8500, 'freelance', 'income'),
 
   // February
   tx('t016', '2026-02-01', 'Monthly Salary', 85000, 'salary', 'income'),
