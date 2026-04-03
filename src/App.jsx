@@ -5,6 +5,7 @@ import Header from './components/layout/Header'
 import DashboardPage from './components/layout/DashboardPage'
 import TransactionsPage from './components/ui/TransactionsPage'
 import InsightsPage from './components/ui/InsightsPage'
+import TransactionModal from './components/ui/TransactionModal'
 import { useIsMobile } from './hooks/useIsMobile'
 
 function AppLayout() {
@@ -33,6 +34,7 @@ function AppLayout() {
           {renderPage()}
         </main>
       </div>
+      <TransactionModal />
     </div>
   )
 }
