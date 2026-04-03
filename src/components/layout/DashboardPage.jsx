@@ -17,7 +17,7 @@ export default function DashboardPage() {
           Good day{state.role === 'admin' ? ', Admin' : ''} 👋
         </h1>
         <p style={{ margin: '4px 0 0', fontSize: 14, color: 'var(--color-ink-muted)' }}>
-          Here's your financial overview for Jan – Jun 2024.
+          Here's your financial overview for 2025 - March 2026.
         </p>
       </div>
 

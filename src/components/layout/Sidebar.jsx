@@ -64,9 +64,9 @@ export default function Sidebar({ mobileOpen, onClose }) {
       <aside style={{
         width: 220,
         minWidth: 220,
-        background: 'var(--color-ink)',
-        color: 'var(--color-white)',
-        display: 'flex',
+        background: '#0d0f14',
+        color: '#ffffff',
+        display: isMobile && !mobileOpen ? 'none' : 'flex',
         flexDirection: 'column',
         height: '100dvh',
         position: isMobile ? 'fixed' : 'sticky',
@@ -78,14 +78,13 @@ export default function Sidebar({ mobileOpen, onClose }) {
           ? (mobileOpen ? 'translateX(0)' : 'translateX(-100%)')
           : 'translateX(0)',
         transition: 'transform 0.25s ease',
-        pointerEvents: isMobile && !mobileOpen ? 'none' : 'auto',
       }}>
         {/* Logo */}
         <div style={{ padding: '24px 20px 20px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <div style={{
               width: 32, height: 32, borderRadius: 8,
-              background: 'var(--color-accent)',
+              background: '#c84b2f',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 600,
               color: 'white', flexShrink: 0,

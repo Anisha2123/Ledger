@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useApp } from '../../context/AppContext'
 import { CATEGORIES } from '../../data/transactions'
 import { formatINR, formatDate } from '../../utils/format'
@@ -14,6 +14,9 @@ function EditIcon() {
 }
 function DeleteIcon() {
   return <svg width={13} height={13} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+}
+function ChevronDownIcon() {
+  return <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
 }
 
 // Get unique months from transactions
@@ -56,6 +59,16 @@ export default function TransactionsPage() {
     URL.revokeObjectURL(url)
   }
 
+  function exportJSON() {
+    const json = JSON.stringify(filteredTransactions, null, 2)
+    const blob = new Blob([json], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a'); a.href = url; a.download = 'transactions.json'; a.click()
+    URL.revokeObjectURL(url)
+  }
+
+  const [exportMenuOpen, setExportMenuOpen] = useState(false)
+
   const inputBase = {
     padding: '8px 12px', borderRadius: 8,
     border: '1px solid var(--color-border)', background: 'var(--color-white)',
@@ -93,18 +106,54 @@ export default function TransactionsPage() {
           </p>
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
-          <button
-            onClick={exportCSV}
-            style={{
-              display: 'flex', alignItems: 'center', gap: 6,
-              padding: '8px 14px', borderRadius: 8,
-              border: '1px solid var(--color-border)', background: 'var(--color-white)',
-              fontSize: 13, fontWeight: 500, cursor: 'pointer', color: 'var(--color-ink-soft)',
-              fontFamily: 'var(--font-sans)',
-            }}
-          >
-            <ExportIcon /> Export CSV
-          </button>
+          <div style={{ position: 'relative' }}>
+            <button
+              onClick={() => setExportMenuOpen(!exportMenuOpen)}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                padding: '8px 14px', borderRadius: 8,
+                border: '1px solid var(--color-border)', background: 'var(--color-white)',
+                fontSize: 13, fontWeight: 500, cursor: 'pointer', color: 'var(--color-ink-soft)',
+                fontFamily: 'var(--font-sans)',
+              }}
+            >
+              <ExportIcon /> Export <ChevronDownIcon />
+            </button>
+            {exportMenuOpen && (
+              <div style={{
+                position: 'absolute', top: '100%', right: 0, marginTop: 4,
+                background: 'var(--color-white)', border: '1px solid var(--color-border)',
+                borderRadius: 8, boxShadow: 'var(--shadow-float)', zIndex: 10,
+                minWidth: 140,
+              }}>
+                <button
+                  onClick={() => { exportCSV(); setExportMenuOpen(false) }}
+                  style={{
+                    width: '100%', padding: '10px 14px', textAlign: 'left',
+                    border: 'none', background: 'transparent', cursor: 'pointer',
+                    fontSize: 13, color: 'var(--color-ink)', fontFamily: 'var(--font-sans)',
+                    borderBottom: '1px solid var(--color-border)',
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.background = 'var(--color-surface)'}
+                  onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                >
+                  CSV
+                </button>
+                <button
+                  onClick={() => { exportJSON(); setExportMenuOpen(false) }}
+                  style={{
+                    width: '100%', padding: '10px 14px', textAlign: 'left',
+                    border: 'none', background: 'transparent', cursor: 'pointer',
+                    fontSize: 13, color: 'var(--color-ink)', fontFamily: 'var(--font-sans)',
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.background = 'var(--color-surface)'}
+                  onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                >
+                  JSON
+                </button>
+              </div>
+            )}
+          </div>
           {role === 'admin' && (
             <button
               onClick={() => dispatch({ type: 'SET_MODAL', payload: { type: 'add' } })}
@@ -206,7 +255,6 @@ export default function TransactionsPage() {
                 >
                   {/* Desktop row */}
                   <div className="tx-desktop-row" style={{
-                    display: 'grid',
                     gridTemplateColumns: role === 'admin' ? '110px 1fr 130px 80px 110px 72px' : '110px 1fr 130px 80px 110px',
                     gap: 12, padding: '11px 20px', alignItems: 'center',
                   }}>
@@ -269,7 +317,7 @@ export default function TransactionsPage() {
 
                   {/* Mobile card row */}
                   <div className="tx-mobile-row" style={{
-                    display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px',
+                    alignItems: 'center', gap: 12, padding: '12px 16px',
                   }}>
                     <div style={{
                       width: 38, height: 38, borderRadius: 9, flexShrink: 0,

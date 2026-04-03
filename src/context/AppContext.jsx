@@ -3,10 +3,24 @@ import { TRANSACTIONS } from '../data/transactions'
 
 const AppContext = createContext(null)
 
+const DATA_VERSION = '2025-2026' // Update this when transactions data changes
+
 const initialState = {
-  transactions: JSON.parse(localStorage.getItem('fd_transactions') || 'null') || TRANSACTIONS,
+  transactions: (() => {
+    const storedVersion = localStorage.getItem('fd_data_version')
+    const storedTransactions = JSON.parse(localStorage.getItem('fd_transactions') || 'null')
+    
+    // If version doesn't match or no stored data, use fresh data
+    if (storedVersion !== DATA_VERSION || !storedTransactions) {
+      localStorage.setItem('fd_data_version', DATA_VERSION)
+      return TRANSACTIONS
+    }
+    
+    return storedTransactions
+  })(),
   role: localStorage.getItem('fd_role') || 'viewer',
   activeTab: 'dashboard',
+  darkMode: localStorage.getItem('fd_darkMode') === 'true' || false,
   filters: {
     search: '',
     type: 'all',
@@ -39,6 +53,8 @@ function reducer(state, action) {
       return { ...state, transactions: state.transactions.filter(t => t.id !== action.payload) }
     case 'SET_MODAL':
       return { ...state, modal: action.payload }
+    case 'TOGGLE_DARK_MODE':
+      return { ...state, darkMode: !state.darkMode }
     default:
       return state
   }
@@ -46,6 +62,19 @@ function reducer(state, action) {
 
 export function AppProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState)
+
+  // Apply dark mode on mount and when it changes
+  useEffect(() => {
+    const html = document.documentElement
+    if (state.darkMode) {
+      html.classList.add('dark-mode')
+      html.classList.remove('light-mode')
+    } else {
+      html.classList.remove('dark-mode')
+      html.classList.add('light-mode')
+    }
+    localStorage.setItem('fd_darkMode', state.darkMode)
+  }, [state.darkMode])
 
   // Persist to localStorage
   useEffect(() => {

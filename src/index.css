@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@theme {
+:root {
   --font-display: "DM Serif Display", Georgia, serif;
   --font-sans: "DM Sans", system-ui, sans-serif;
 
@@ -32,6 +32,70 @@
   --radius-md: 10px;
   --radius-lg: 16px;
   --radius-xl: 24px;
+
+  --shadow-card: 0 1px 3px rgba(13,15,20,0.06), 0 4px 16px rgba(13,15,20,0.04);
+  --shadow-raised: 0 4px 12px rgba(13,15,20,0.10), 0 1px 3px rgba(13,15,20,0.06);
+  --shadow-float: 0 8px 32px rgba(13,15,20,0.12), 0 2px 8px rgba(13,15,20,0.06);
+}
+
+/* Dark mode toggle class - takes precedence */
+html.dark-mode {
+  color-scheme: dark;
+  --color-ink: #f5f5f5;
+  --color-ink-soft: #d0d0d0;
+  --color-ink-muted: #888888;
+  --color-surface: #1a1a1a;
+  --color-surface-2: #2a2a2a;
+  --color-surface-3: #333333;
+  --color-border: #404040;
+  --color-white: #0d0f14;
+
+  --color-accent: #ff6b4a;
+  --color-accent-soft: #3d2a23;
+  --color-accent-dark: #cc5a3a;
+
+  --color-green: #4a9f7f;
+  --color-green-soft: #1f3d33;
+  --color-red: #ff6b4a;
+  --color-red-soft: #3d2520;
+  --color-amber: #e8a83a;
+  --color-amber-soft: #3d3020;
+  --color-blue: #5a8fd9;
+  --color-blue-soft: #1f2d4a;
+  --color-purple: #9a6fd9;
+  --color-purple-soft: #2d1f4a;
+
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.2);
+  --shadow-raised: 0 4px 12px rgba(0,0,0,0.4), 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-float: 0 8px 32px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3);
+}
+
+/* Light mode toggle class - explicit light mode */
+html.light-mode {
+  color-scheme: light;
+  --color-ink: #0d0f14;
+  --color-ink-soft: #3a3d47;
+  --color-ink-muted: #7a7f8e;
+  --color-surface: #f7f6f2;
+  --color-surface-2: #eeecea;
+  --color-surface-3: #e4e2de;
+  --color-border: #d8d5d0;
+  --color-white: #ffffff;
+
+  --color-accent: #c84b2f;
+  --color-accent-soft: #f0e8e4;
+  --color-accent-dark: #9e3820;
+
+  --color-green: #2d7a5f;
+  --color-green-soft: #e2f0eb;
+  --color-red: #c84b2f;
+  --color-red-soft: #f5e8e4;
+  --color-amber: #c47a1a;
+  --color-amber-soft: #f5edde;
+  --color-blue: #2d5fa8;
+  --color-blue-soft: #e2eaf5;
+  --color-purple: #6b3fa8;
+  --color-purple-soft: #ece5f5;
 
   --shadow-card: 0 1px 3px rgba(13,15,20,0.06), 0 4px 16px rgba(13,15,20,0.04);
   --shadow-raised: 0 4px 12px rgba(13,15,20,0.10), 0 1px 3px rgba(13,15,20,0.06);
@@ -127,14 +191,28 @@ body {
 .transition-base { transition: all 0.18s ease; }
 
 /* Transaction table responsive */
-.tx-desktop-row { display: grid; }
-.tx-mobile-row  { display: none; }
-.tx-table-header { display: grid; }
+.tx-desktop-row { 
+  display: grid;
+  align-items: center;
+}
+.tx-mobile-row  { 
+  display: none;
+}
+.tx-table-header { 
+  display: grid;
+}
 
-@media (max-width: 640px) {
-  .tx-desktop-row { display: none !important; }
-  .tx-mobile-row  { display: flex !important; }
-  .tx-table-header { display: none !important; }
+@media (max-width: 768px) {
+  .tx-desktop-row { 
+    display: none !important;
+  }
+  .tx-mobile-row  { 
+    display: flex !important;
+    align-items: center;
+  }
+  .tx-table-header { 
+    display: none !important;
+  }
 }
 
 /* Insights grid responsive */
