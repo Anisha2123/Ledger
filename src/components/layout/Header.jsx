@@ -117,8 +117,9 @@ export default function Header({ onMenuClick }) {
         {/* Avatar placeholder */}
         <div style={{
           width: 32, height: 32, borderRadius: '50%',
-          background: 'var(--color-ink)',
-          color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
+          background: state.darkMode ? '#f5f5f5' : '#0d0f14',
+          color: state.darkMode ? '#0d0f14' : '#ffffff',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontSize: 13, fontWeight: 600, fontFamily: 'var(--font-display)',
           flexShrink: 0,
         }}>
