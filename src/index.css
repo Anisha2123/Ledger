@@ -202,6 +202,13 @@ body {
   display: grid;
 }
 
+/* Summary cards responsive */
+@media (max-width: 768px) {
+  .summary-cards-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
 @media (max-width: 768px) {
   .tx-desktop-row { 
     display: none !important;

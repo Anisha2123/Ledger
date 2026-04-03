@@ -8,10 +8,12 @@ function CustomTooltip({ active, payload, label }) {
   if (!active || !payload?.length) return null
   return (
     <div style={{
-      background: 'var(--color-ink)', color: 'white',
+      background: '#0d0f14',
+      color: '#ffffff',
       borderRadius: 10, padding: '10px 14px',
-      fontSize: 13, boxShadow: 'var(--shadow-float)',
-      border: 'none',
+      fontSize: 13,
+      boxShadow: '0 8px 32px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3)',
+      border: '1px solid rgba(255,255,255,0.1)',
     }}>
       <div style={{ fontWeight: 600, marginBottom: 6 }}>{label}</div>
       {payload.map(p => (

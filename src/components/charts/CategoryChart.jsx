@@ -9,9 +9,11 @@ function CustomTooltip({ active, payload }) {
   const d = payload[0]
   return (
     <div style={{
-      background: 'var(--color-ink)', color: 'white',
+      background: '#0d0f14',
+      color: '#ffffff',
       borderRadius: 10, padding: '9px 13px', fontSize: 13,
-      boxShadow: 'var(--shadow-float)',
+      boxShadow: '0 8px 32px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3)',
+      border: '1px solid rgba(255,255,255,0.1)',
     }}>
       <div style={{ fontWeight: 600 }}>{d.name}</div>
       <div style={{ color: 'rgba(255,255,255,0.7)', marginTop: 2 }}>{formatINR(d.value)}</div>

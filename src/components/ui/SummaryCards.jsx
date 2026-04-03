@@ -51,7 +51,12 @@ export default function SummaryCards() {
   ]
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: 12 }}>
+    <div style={{ 
+      display: 'grid', 
+      gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', 
+      gap: 12 
+    }} 
+    className="summary-cards-grid">
       {cards.map((card, i) => (
         <div
           key={card.label}
