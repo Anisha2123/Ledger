@@ -43,13 +43,13 @@ export default function Header({ onMenuClick }) {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      padding: '0 20px',
+      padding: isMobile ? '0 12px' : '0 20px',
       position: 'sticky',
       top: 0,
       zIndex: 30,
       flexShrink: 0,
     }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 8 : 12, flex: 1, minWidth: 0 }}>
         {/* Hamburger — only on mobile */}
         {isMobile && (
           <button
@@ -57,26 +57,29 @@ export default function Header({ onMenuClick }) {
             style={{
               background: 'none', border: 'none', cursor: 'pointer',
               color: 'var(--color-ink-soft)', display: 'flex', alignItems: 'center',
-              padding: 4, borderRadius: 6,
+              padding: 4, borderRadius: 6, flexShrink: 0,
             }}
           >
             <MenuIcon />
           </button>
         )}
         <div style={{
-          fontSize: 13,
+          fontSize: isMobile ? 12 : 13,
           color: 'var(--color-ink-muted)',
           display: 'flex', alignItems: 'center', gap: 6,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
         }}>
-          <span>Ledger</span>
-          <span style={{ opacity: 0.4 }}>/</span>
+          {!isMobile && <span>Ledger</span>}
+          {!isMobile && <span style={{ opacity: 0.4 }}>/</span>}
           <span style={{ color: 'var(--color-ink)', fontWeight: 500 }}>
             {TAB_LABELS[state.activeTab]}
           </span>
         </div>
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 6 : 10, flexShrink: 0 }}>
         {/* Dark mode toggle */}
         <button
           onClick={() => dispatch({ type: 'TOGGLE_DARK_MODE' })}
@@ -91,16 +94,25 @@ export default function Header({ onMenuClick }) {
           {state.darkMode ? <SunIcon /> : <MoonIcon />}
         </button>
 
-        {/* Role badge */}
-        <div style={{
-          fontSize: 12, fontWeight: 600, padding: '4px 10px', borderRadius: 20,
-          background: state.role === 'admin' ? 'var(--color-accent-soft)' : 'var(--color-surface-2)',
-          color: state.role === 'admin' ? 'var(--color-accent)' : 'var(--color-ink-muted)',
-          letterSpacing: '0.02em',
-          textTransform: 'capitalize',
-        }}>
-          {state.role === 'admin' ? '⚡ Admin' : '👁 Viewer'}
-        </div>
+        {/* Role badge - hide text on mobile */}
+        {!isMobile ? (
+          <div style={{
+            fontSize: 12, fontWeight: 600, padding: '4px 10px', borderRadius: 20,
+            background: state.role === 'admin' ? 'var(--color-accent-soft)' : 'var(--color-surface-2)',
+            color: state.role === 'admin' ? 'var(--color-accent)' : 'var(--color-ink-muted)',
+            letterSpacing: '0.02em',
+            textTransform: 'capitalize',
+          }}>
+            {state.role === 'admin' ? '⚡ Admin' : '👁 Viewer'}
+          </div>
+        ) : (
+          <div style={{
+            fontSize: 16,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            {state.role === 'admin' ? '⚡' : '👁'}
+          </div>
+        )}
 
         {/* Avatar placeholder */}
         <div style={{
