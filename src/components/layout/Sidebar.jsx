@@ -45,6 +45,18 @@ export default function Sidebar({ mobileOpen, onClose }) {
           style={{
             position: 'fixed', inset: 0, zIndex: 40,
             background: 'rgba(0,0,0,0.35)',
+            pointerEvents: 'auto',
+          }}
+        />
+      )}
+
+      {/* Backdrop — only visible on mobile when open */}
+      {isMobile && mobileOpen && (
+        <div
+          onClick={onClose}
+          style={{
+            position: 'fixed', inset: 0, zIndex: 40,
+            background: 'rgba(0,0,0,0.35)',
           }}
         />
       )}
@@ -66,6 +78,7 @@ export default function Sidebar({ mobileOpen, onClose }) {
           ? (mobileOpen ? 'translateX(0)' : 'translateX(-100%)')
           : 'translateX(0)',
         transition: 'transform 0.25s ease',
+        pointerEvents: isMobile && !mobileOpen ? 'none' : 'auto',
       }}>
         {/* Logo */}
         <div style={{ padding: '24px 20px 20px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
