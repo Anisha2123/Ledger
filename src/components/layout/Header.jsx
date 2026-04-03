@@ -1,4 +1,5 @@
 import { useApp } from '../../context/AppContext'
+import { useIsMobile } from '../../hooks/useIsMobile'
 
 function MenuIcon() {
   return (
@@ -16,6 +17,7 @@ const TAB_LABELS = {
 
 export default function Header({ onMenuClick }) {
   const { state, dispatch } = useApp()
+  const isMobile = useIsMobile()
 
   return (
     <header style={{
@@ -32,18 +34,19 @@ export default function Header({ onMenuClick }) {
       flexShrink: 0,
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-        {/* Mobile menu */}
-        <button
-          className="lg:hidden"
-          onClick={onMenuClick}
-          style={{
-            background: 'none', border: 'none', cursor: 'pointer',
-            color: 'var(--color-ink-soft)', display: 'flex', alignItems: 'center',
-            padding: 4, borderRadius: 6,
-          }}
-        >
-          <MenuIcon />
-        </button>
+        {/* Hamburger — only on mobile */}
+        {isMobile && (
+          <button
+            onClick={onMenuClick}
+            style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              color: 'var(--color-ink-soft)', display: 'flex', alignItems: 'center',
+              padding: 4, borderRadius: 6,
+            }}
+          >
+            <MenuIcon />
+          </button>
+        )}
         <div style={{
           fontSize: 13,
           color: 'var(--color-ink-muted)',

@@ -167,13 +167,15 @@ export default function TransactionsPage() {
 
       {/* Table */}
       <div className="card" style={{ overflow: 'hidden' }}>
-        {/* Table header */}
+        {/* Desktop table header — hidden on mobile via min-width */}
         <div style={{
-          display: 'grid', gridTemplateColumns: '1fr 2fr 1fr 1fr 1fr auto',
+          display: 'grid', gridTemplateColumns: role === 'admin' ? '110px 1fr 130px 80px 110px 72px' : '110px 1fr 130px 80px 110px',
           gap: 12, padding: '12px 20px',
           borderBottom: '1px solid var(--color-border)',
           background: 'var(--color-surface)',
-        }}>
+          // hide on very narrow screens
+          overflowX: 'auto',
+        }} className="tx-table-header">
           <SortBtn field="date" label="Date" />
           <SortBtn field="description" label="Description" />
           <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--color-ink-muted)', letterSpacing: '0.02em', textTransform: 'uppercase' }}>Category</div>
@@ -189,79 +191,133 @@ export default function TransactionsPage() {
             <div style={{ fontSize: 13, color: 'var(--color-ink-muted)' }}>Try adjusting your filters</div>
           </div>
         ) : (
-          <div style={{ maxHeight: 500, overflowY: 'auto' }}>
+          <div style={{ maxHeight: 520, overflowY: 'auto' }}>
             {filteredTransactions.map((tx, i) => {
               const cat = CATEGORIES[tx.category] || CATEGORIES.other
               return (
                 <div
                   key={tx.id}
                   style={{
-                    display: 'grid', gridTemplateColumns: '1fr 2fr 1fr 1fr 1fr auto',
-                    gap: 12, padding: '11px 20px',
                     borderBottom: i < filteredTransactions.length - 1 ? '1px solid var(--color-surface-2)' : 'none',
-                    alignItems: 'center', transition: 'background 0.12s',
+                    transition: 'background 0.12s',
                   }}
                   onMouseEnter={e => e.currentTarget.style.background = 'var(--color-surface)'}
                   onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
                 >
-                  <div style={{ fontSize: 12, color: 'var(--color-ink-muted)' }}>{formatDate(tx.date)}</div>
-                  <div>
-                    <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--color-ink)' }}>{tx.description}</div>
-                    {tx.note && <div style={{ fontSize: 11, color: 'var(--color-ink-muted)' }}>{tx.note}</div>}
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                    <span style={{ fontSize: 15 }}>{cat.icon}</span>
-                    <span style={{ fontSize: 12, color: 'var(--color-ink-soft)' }}>{cat.label}</span>
-                  </div>
-                  <div>
-                    <span style={{
-                      fontSize: 11, fontWeight: 600, padding: '3px 8px', borderRadius: 20,
-                      background: tx.type === 'income' ? 'var(--color-green-soft)' : 'var(--color-red-soft)',
-                      color: tx.type === 'income' ? 'var(--color-green)' : 'var(--color-red)',
-                      textTransform: 'capitalize',
-                    }}>
-                      {tx.type}
-                    </span>
-                  </div>
-                  <div style={{
-                    fontSize: 13, fontWeight: 700,
-                    color: tx.type === 'income' ? 'var(--color-green)' : 'var(--color-red)',
+                  {/* Desktop row */}
+                  <div className="tx-desktop-row" style={{
+                    display: 'grid',
+                    gridTemplateColumns: role === 'admin' ? '110px 1fr 130px 80px 110px 72px' : '110px 1fr 130px 80px 110px',
+                    gap: 12, padding: '11px 20px', alignItems: 'center',
                   }}>
-                    {tx.type === 'income' ? '+' : ''}{formatINR(tx.amount)}
-                  </div>
-                  {role === 'admin' && (
-                    <div style={{ display: 'flex', gap: 4 }}>
-                      <button
-                        onClick={() => dispatch({ type: 'SET_MODAL', payload: { type: 'edit', tx } })}
-                        style={{
-                          width: 28, height: 28, borderRadius: 6, border: '1px solid var(--color-border)',
-                          background: 'transparent', cursor: 'pointer', display: 'flex',
-                          alignItems: 'center', justifyContent: 'center', color: 'var(--color-ink-muted)',
-                          transition: 'all 0.15s',
-                        }}
-                        onMouseEnter={e => { e.currentTarget.style.background = 'var(--color-blue-soft)'; e.currentTarget.style.color = 'var(--color-blue)' }}
-                        onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--color-ink-muted)' }}
-                      >
-                        <EditIcon />
-                      </button>
-                      <button
-                        onClick={() => {
-                          if (confirm('Delete this transaction?'))
-                            dispatch({ type: 'DELETE_TRANSACTION', payload: tx.id })
-                        }}
-                        style={{
-                          width: 28, height: 28, borderRadius: 6, border: '1px solid var(--color-border)',
-                          background: 'transparent', cursor: 'pointer', display: 'flex',
-                          alignItems: 'center', justifyContent: 'center', color: 'var(--color-ink-muted)',
-                          transition: 'all 0.15s',
-                        }}
-                        onMouseEnter={e => { e.currentTarget.style.background = 'var(--color-red-soft)'; e.currentTarget.style.color = 'var(--color-red)' }}
-                        onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--color-ink-muted)' }}
-                      >
-                        <DeleteIcon />
-                      </button>
+                    <div style={{ fontSize: 12, color: 'var(--color-ink-muted)' }}>{formatDate(tx.date)}</div>
+                    <div>
+                      <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--color-ink)' }}>{tx.description}</div>
+                      {tx.note && <div style={{ fontSize: 11, color: 'var(--color-ink-muted)' }}>{tx.note}</div>}
                     </div>
-                  )}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <span style={{ fontSize: 15 }}>{cat.icon}</span>
+                      <span style={{ fontSize: 12, color: 'var(--color-ink-soft)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{cat.label}</span>
+                    </div>
+                    <div>
+                      <span style={{
+                        fontSize: 11, fontWeight: 600, padding: '3px 8px', borderRadius: 20,
+                        background: tx.type === 'income' ? 'var(--color-green-soft)' : 'var(--color-red-soft)',
+                        color: tx.type === 'income' ? 'var(--color-green)' : 'var(--color-red)',
+                        textTransform: 'capitalize',
+                      }}>
+                        {tx.type}
+                      </span>
+                    </div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: tx.type === 'income' ? 'var(--color-green)' : 'var(--color-red)' }}>
+                      {tx.type === 'income' ? '+' : ''}{formatINR(tx.amount)}
+                    </div>
+                    {role === 'admin' && (
+                      <div style={{ display: 'flex', gap: 4 }}>
+                        <button
+                          onClick={() => dispatch({ type: 'SET_MODAL', payload: { type: 'edit', tx } })}
+                          style={{
+                            width: 28, height: 28, borderRadius: 6, border: '1px solid var(--color-border)',
+                            background: 'transparent', cursor: 'pointer', display: 'flex',
+                            alignItems: 'center', justifyContent: 'center', color: 'var(--color-ink-muted)',
+                            transition: 'all 0.15s',
+                          }}
+                          onMouseEnter={e => { e.currentTarget.style.background = 'var(--color-blue-soft)'; e.currentTarget.style.color = 'var(--color-blue)' }}
+                          onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--color-ink-muted)' }}
+                        >
+                          <EditIcon />
+                        </button>
+                        <button
+                          onClick={() => {
+                            if (confirm('Delete this transaction?'))
+                              dispatch({ type: 'DELETE_TRANSACTION', payload: tx.id })
+                          }}
+                          style={{
+                            width: 28, height: 28, borderRadius: 6, border: '1px solid var(--color-border)',
+                            background: 'transparent', cursor: 'pointer', display: 'flex',
+                            alignItems: 'center', justifyContent: 'center', color: 'var(--color-ink-muted)',
+                            transition: 'all 0.15s',
+                          }}
+                          onMouseEnter={e => { e.currentTarget.style.background = 'var(--color-red-soft)'; e.currentTarget.style.color = 'var(--color-red)' }}
+                          onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--color-ink-muted)' }}
+                        >
+                          <DeleteIcon />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Mobile card row */}
+                  <div className="tx-mobile-row" style={{
+                    display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px',
+                  }}>
+                    <div style={{
+                      width: 38, height: 38, borderRadius: 9, flexShrink: 0,
+                      background: cat.bg, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: 18,
+                    }}>{cat.icon}</div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--color-ink)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {tx.description}
+                      </div>
+                      <div style={{ fontSize: 11, color: 'var(--color-ink-muted)', marginTop: 2 }}>
+                        {cat.label} · {formatDate(tx.date)}
+                      </div>
+                    </div>
+                    <div style={{ flexShrink: 0, textAlign: 'right' }}>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: tx.type === 'income' ? 'var(--color-green)' : 'var(--color-red)' }}>
+                        {tx.type === 'income' ? '+' : ''}{formatINR(tx.amount)}
+                      </div>
+                      <div style={{ fontSize: 11, marginTop: 2 }}>
+                        <span style={{
+                          padding: '2px 7px', borderRadius: 20, fontWeight: 600,
+                          background: tx.type === 'income' ? 'var(--color-green-soft)' : 'var(--color-red-soft)',
+                          color: tx.type === 'income' ? 'var(--color-green)' : 'var(--color-red)',
+                          textTransform: 'capitalize',
+                        }}>{tx.type}</span>
+                      </div>
+                    </div>
+                    {role === 'admin' && (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 4, flexShrink: 0 }}>
+                        <button
+                          onClick={() => dispatch({ type: 'SET_MODAL', payload: { type: 'edit', tx } })}
+                          style={{
+                            width: 26, height: 26, borderRadius: 6, border: '1px solid var(--color-border)',
+                            background: 'transparent', cursor: 'pointer', display: 'flex',
+                            alignItems: 'center', justifyContent: 'center', color: 'var(--color-ink-muted)',
+                          }}
+                        ><EditIcon /></button>
+                        <button
+                          onClick={() => { if (confirm('Delete this transaction?')) dispatch({ type: 'DELETE_TRANSACTION', payload: tx.id }) }}
+                          style={{
+                            width: 26, height: 26, borderRadius: 6, border: '1px solid var(--color-border)',
+                            background: 'transparent', cursor: 'pointer', display: 'flex',
+                            alignItems: 'center', justifyContent: 'center', color: 'var(--color-ink-muted)',
+                          }}
+                        ><DeleteIcon /></button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               )
             })}

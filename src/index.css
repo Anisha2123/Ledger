@@ -125,3 +125,21 @@ body {
 
 /* Transition helpers */
 .transition-base { transition: all 0.18s ease; }
+
+/* Transaction table responsive */
+.tx-desktop-row { display: grid; }
+.tx-mobile-row  { display: none; }
+.tx-table-header { display: grid; }
+
+@media (max-width: 640px) {
+  .tx-desktop-row { display: none !important; }
+  .tx-mobile-row  { display: flex !important; }
+  .tx-table-header { display: none !important; }
+}
+
+/* Insights grid responsive */
+@media (max-width: 480px) {
+  .insight-cards-grid {
+    grid-template-columns: 1fr !important;
+  }
+}

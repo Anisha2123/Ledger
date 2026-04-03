@@ -1,4 +1,5 @@
 import { useApp } from '../../context/AppContext'
+import { useIsMobile } from '../../hooks/useIsMobile'
 
 const NAV_ITEMS = [
   { id: 'dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -6,7 +7,6 @@ const NAV_ITEMS = [
   { id: 'insights', icon: Sparkles, label: 'Insights' },
 ]
 
-// Inline SVG icons to avoid lucide import issues in offline env
 function LayoutDashboard({ size = 18 }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -34,36 +34,39 @@ function Sparkles({ size = 18 }) {
 export default function Sidebar({ mobileOpen, onClose }) {
   const { state, dispatch } = useApp()
   const { activeTab, role } = state
+  const isMobile = useIsMobile()
 
   return (
     <>
-      {/* Mobile overlay */}
-      {mobileOpen && (
+      {/* Backdrop — only visible on mobile when open */}
+      {isMobile && mobileOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/20 lg:hidden"
           onClick={onClose}
+          style={{
+            position: 'fixed', inset: 0, zIndex: 40,
+            background: 'rgba(0,0,0,0.35)',
+          }}
         />
       )}
 
-      <aside
-        style={{
-          width: 220,
-          minWidth: 220,
-          background: 'var(--color-ink)',
-          color: 'var(--color-white)',
-          display: 'flex',
-          flexDirection: 'column',
-          height: '100dvh',
-          position: 'sticky',
-          top: 0,
-          zIndex: 50,
-          transition: 'transform 0.25s ease',
-        }}
-        className={`
-          fixed lg:static inset-y-0 left-0
-          ${mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-        `}
-      >
+      <aside style={{
+        width: 220,
+        minWidth: 220,
+        background: 'var(--color-ink)',
+        color: 'var(--color-white)',
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100dvh',
+        position: isMobile ? 'fixed' : 'sticky',
+        top: 0,
+        left: 0,
+        zIndex: 50,
+        flexShrink: 0,
+        transform: isMobile
+          ? (mobileOpen ? 'translateX(0)' : 'translateX(-100%)')
+          : 'translateX(0)',
+        transition: 'transform 0.25s ease',
+      }}>
         {/* Logo */}
         <div style={{ padding: '24px 20px 20px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -103,12 +106,16 @@ export default function Sidebar({ mobileOpen, onClose }) {
                   fontSize: 14, fontWeight: active ? 500 : 400,
                   transition: 'all 0.15s ease',
                   fontFamily: 'var(--font-sans)',
+                  position: 'relative',
                 }}
-                onMouseEnter={e => { if (!active) e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = 'rgba(255,255,255,0.8)' }}
+                onMouseEnter={e => { if (!active) { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = 'rgba(255,255,255,0.8)' } }}
                 onMouseLeave={e => { if (!active) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,0.5)' } }}
               >
                 {active && (
-                  <span style={{ position: 'absolute', left: 0, width: 3, height: 20, background: 'var(--color-accent)', borderRadius: '0 2px 2px 0', marginLeft: 0 }} />
+                  <span style={{
+                    position: 'absolute', left: 0, width: 3, height: 20,
+                    background: 'var(--color-accent)', borderRadius: '0 2px 2px 0',
+                  }} />
                 )}
                 <Icon size={17} />
                 {item.label}

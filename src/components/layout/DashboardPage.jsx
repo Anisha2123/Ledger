@@ -25,7 +25,7 @@ export default function DashboardPage() {
       <SummaryCards />
 
       {/* Charts row */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 18 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: 16 }}>
         <div style={{ minWidth: 0 }}>
           <BalanceTrendChart />
         </div>
